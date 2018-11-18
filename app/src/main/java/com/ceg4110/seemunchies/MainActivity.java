@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
         Button selectImage = (Button) findViewById(R.id.imagePicker);
         selectImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -35,6 +36,23 @@ public class MainActivity extends AppCompatActivity {
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
                 startActivityForResult(Intent.createChooser(intent, "Select an image"), PICK_IMAGE_REQUEST);
+            }
+        });
+
+        Button openGCamera = (Button) findViewById(R.id.openCamera);
+        openGCamera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
+                startActivity(intent);
+            }
+        });
+
+        Button openGallery = (Button) findViewById(R.id.openGallery);
+        openGallery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
     }
