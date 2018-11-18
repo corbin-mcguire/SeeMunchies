@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
         openGallery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                // Add code here to open the gallery.
             }
         });
     }
