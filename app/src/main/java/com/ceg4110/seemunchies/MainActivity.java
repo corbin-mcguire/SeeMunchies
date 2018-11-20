@@ -35,17 +35,17 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        Button selectImage = (Button) findViewById(R.id.imagePicker);
-        selectImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent();
-                int PICK_IMAGE_REQUEST = 1;
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent, "Select an image"), PICK_IMAGE_REQUEST);
-            }
-        });
+//        Button selectImage = (Button) findViewById(R.id.imagePicker);
+//        selectImage.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent();
+//                int PICK_IMAGE_REQUEST = 1;
+//                intent.setType("image/*");
+//                intent.setAction(Intent.ACTION_GET_CONTENT);
+//                startActivityForResult(Intent.createChooser(intent, "Select an image"), PICK_IMAGE_REQUEST);
+//            }
+//        });
 
         Button submitPic = findViewById(R.id.takePhotoSubmitButton);
         submitPic.setOnClickListener(new View.OnClickListener() {
@@ -77,17 +77,23 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                dispatchTakePictureIntent();
+                if (file == null) { // Guarantees a new image will be created from the camera.
+                    dispatchTakePictureIntent();
+                }
+                else {
+                    file = null;
+                    dispatchTakePictureIntent();
+                }
             }
         });
 
-        Button openGallery = (Button) findViewById(R.id.openGallery);
-        openGallery.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Add code here to open the gallery.
-            }
-        });
+//        Button openGallery = (Button) findViewById(R.id.openGallery);
+//        openGallery.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                // Add code here to open the gallery.
+//            }
+//        });
     }
 
     private final int REQUEST_TAKE_PHOTO = 1;
@@ -100,18 +106,18 @@ public class MainActivity extends AppCompatActivity {
         if(takePictureIntent.resolveActivity(getPackageManager()) != null) {
             startActivityForResult(takePictureIntent, 1);
         }
-        File imageFile = null;
+//        File imageFile = null;
         try {
-            imageFile = createImageFile();
+//            imageFile = createImageFile();
             file = createImageFile();
         } catch (IOException e) {
             Context context = getApplicationContext();
             Toast toast = Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT);
         }
-        if (imageFile!= null) {
+        if (file!= null) {
             Uri photoURI = FileProvider.getUriForFile(this,
                     "com.example.android.fileprovider",
-                    imageFile);
+                    file);
             takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
             startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
         }

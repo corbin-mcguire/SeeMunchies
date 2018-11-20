@@ -8,108 +8,90 @@
     tools:context=".MainActivity"
     tools:showIn="@layout/activity_main">
 
-    <Button
-        android:id="@+id/imagePicker"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="76dp"
-        android:layout_marginBottom="14dp"
-        android:text="Upload From Gallery"
-        app:layout_constraintBottom_toTopOf="@+id/openGallery"
-        app:layout_constraintEnd_toStartOf="@+id/galleryTextView"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/openCamera" />
+    <!--<Button-->
+        <!--android:id="@+id/imagePicker"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginTop="76dp"-->
+        <!--android:layout_marginBottom="14dp"-->
+        <!--android:text="Upload From Gallery"-->
+        <!--app:layout_constraintBottom_toTopOf="@+id/openGallery"-->
+        <!--app:layout_constraintEnd_toStartOf="@+id/galleryTextView"-->
+        <!--app:layout_constraintHorizontal_bias="0.054"-->
+        <!--app:layout_constraintStart_toStartOf="parent"-->
+        <!--app:layout_constraintTop_toBottomOf="@+id/openCamera" />-->
 
     <Button
         android:id="@+id/openCamera"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
-        android:layout_marginStart="6dp"
-        android:layout_marginTop="61dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="76dp"
+        android:layout_marginBottom="2dp"
         android:text="@string/take_picture"
-        app:layout_constraintBottom_toTopOf="@+id/imagePicker"
-        app:layout_constraintEnd_toStartOf="@+id/takePhotoSubmitButton"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/openGallery"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="259dp"
-        android:layout_marginBottom="158dp"
-        android:text="@string/view_gallery"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imagePicker" />
+        app:layout_constraintTop_toBottomOf="@+id/takePictureTextView" />
+
+    <!--<Button-->
+        <!--android:id="@+id/openGallery"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginStart="132dp"-->
+        <!--android:layout_marginEnd="8dp"-->
+        <!--android:layout_marginBottom="52dp"-->
+        <!--android:text="@string/view_gallery"-->
+        <!--app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--app:layout_constraintEnd_toEndOf="parent"-->
+        <!--app:layout_constraintStart_toStartOf="parent" />-->
 
     <TextView
         android:id="@+id/takePictureTextView"
         android:layout_width="wrap_content"
         android:layout_height="19dp"
-        android:layout_marginStart="159dp"
-        android:layout_marginTop="43dp"
-        android:layout_marginEnd="132dp"
-        android:layout_marginBottom="86dp"
+        android:layout_marginTop="442dp"
+        android:layout_marginEnd="291dp"
         android:text="Take a Picture!"
-        app:layout_constraintBottom_toTopOf="@+id/uploadFromGalleryTextView"
+        app:layout_constraintBottom_toTopOf="@+id/openCamera"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/uploadFromGalleryTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="19dp"
-        android:layout_marginStart="6dp"
-        android:layout_marginTop="86dp"
-        android:layout_marginEnd="6dp"
-        android:layout_marginBottom="18dp"
-        android:text="Upload one of your own pictures!"
-        app:layout_constraintBottom_toTopOf="@+id/imagePicker"
-        app:layout_constraintEnd_toStartOf="@+id/uploadFromGallerySubmitButton"
-        app:layout_constraintStart_toEndOf="@+id/imagePicker"
-        app:layout_constraintTop_toBottomOf="@+id/takePictureTextView" />
+    <!--<TextView-->
+        <!--android:id="@+id/uploadFromGalleryTextView"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="19dp"-->
+        <!--android:text="Upload one of your own pictures!"-->
+        <!--tools:layout_editor_absoluteY="200dp" />-->
 
-    <TextView
-        android:id="@+id/galleryTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="2dp"
-        android:layout_marginBottom="3dp"
-        android:text="View all the awesome pictures other people have submitted!"
-        app:layout_constraintBottom_toTopOf="@+id/imagePicker"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/uploadFromGallerySubmitButton" />
+    <!--<TextView-->
+        <!--android:id="@+id/galleryTextView"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginTop="2dp"-->
+        <!--android:layout_marginBottom="3dp"-->
+        <!--android:text="View all the awesome pictures other people have submitted!"-->
+        <!--app:layout_constraintBottom_toTopOf="@+id/imagePicker"-->
+        <!--app:layout_constraintStart_toStartOf="parent"-->
+        <!--app:layout_constraintTop_toBottomOf="@+id/uploadFromGallerySubmitButton"-->
+        <!--app:layout_constraintVertical_bias="0.0" />-->
 
     <Button
         android:id="@+id/takePhotoSubmitButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="153dp"
-        android:layout_marginTop="62dp"
-        android:layout_marginEnd="17dp"
-        android:layout_marginBottom="75dp"
+        android:layout_marginTop="461dp"
+        android:layout_marginEnd="176dp"
+        android:layout_marginBottom="2dp"
         android:text="Submit"
-        app:layout_constraintBottom_toTopOf="@+id/uploadFromGallerySubmitButton"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/openCamera"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/uploadFromGallerySubmitButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="75dp"
-        android:text="Submit"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/uploadFromGalleryTextView"
-        app:layout_constraintTop_toBottomOf="@+id/takePhotoSubmitButton" />
+    <!--<Button-->
+        <!--android:id="@+id/uploadFromGallerySubmitButton"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="Submit"-->
+        <!--app:layout_constraintEnd_toEndOf="parent"-->
+        <!--tools:layout_editor_absoluteY="227dp" />-->
 </android.support.constraint.ConstraintLayout>

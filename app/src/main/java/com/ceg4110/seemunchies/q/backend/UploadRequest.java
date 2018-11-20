@@ -35,10 +35,10 @@ public class UploadRequest implements RequestToFlask
         ds.write(postJsonData.getBytes());
         ds.flush();
         ds.close();
-
         BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));
         String output = br.readLine();
 
         Results.getInstance().getAIDecision().add(output);
+        System.out.println("Request Done.");
     }
 }

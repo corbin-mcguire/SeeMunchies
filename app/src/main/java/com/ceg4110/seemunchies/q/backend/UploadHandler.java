@@ -30,6 +30,7 @@ public class UploadHandler
     public void makeUploadRequest(String encoded) throws Exception
     {
         UploadRequest ur = new UploadRequest(encoded);
+        System.out.println("Request Made.");
         ur.post();
     }
 
