@@ -20,7 +20,7 @@ public class UploadRequest implements RequestToFlask
     public UploadRequest(String encoded) throws MalformedURLException
     {
         this.encoded = encoded;
-        url = new URL("http://127.0.0.1:5000/json_post");
+        url = new URL("http://18.224.114.186:5000/json_post");
     }
 
     public void post() throws Exception
@@ -28,6 +28,7 @@ public class UploadRequest implements RequestToFlask
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         con.setRequestMethod("POST");
         con.setRequestProperty("Content-Type", "application/json");
+        encoded = encoded.replace("\n", "").replaceAll("\r", "");
         String postJsonData = "{\"value\": " + this.encoded + "}";
 
         con.setDoOutput(true);
@@ -40,5 +41,6 @@ public class UploadRequest implements RequestToFlask
 
         Results.getInstance().getAIDecision().add(output);
         System.out.println("Request Done.");
+        System.out.println(output);
     }
 }
