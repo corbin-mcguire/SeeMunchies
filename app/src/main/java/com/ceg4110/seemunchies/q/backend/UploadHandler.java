@@ -1,6 +1,11 @@
 package com.ceg4110.seemunchies.q.backend;
 
+import com.sun.org.apache.xml.internal.security.utils.Base64;
+
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class UploadHandler
@@ -22,8 +27,17 @@ public class UploadHandler
         this.images = images;
     }
 
-    public void makeUploadRequest()
+    public void makeUploadRequest() throws Exception
     {
-        // TODO Make the Request
+        UploadRequest ur = new UploadRequest(encodeFile());
+    }
+
+    public String encodeFile() throws FileNotFoundException, IOException
+    {
+        File f = images.get(0);
+        FileInputStream fis = new FileInputStream(f);
+        byte[] bytes = new byte[(int)f.length()];
+        fis.read(bytes);
+        return Base64.encode(bytes).toString();
     }
 }
