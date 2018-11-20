@@ -50,7 +50,7 @@ public class UploadHandler
         //byte[] bytes = new byte[(int)f.length()];
         //fis.read(bytes);
         //String temp = Base64.encodeToString(bytes, Base64.DEFAULT);
-        value = value.replace("\n", "").replaceAll("\r", "");
+        //value = value.replace("\n", "").replaceAll("\r", "");
         return value;
     }
 }
