@@ -11,7 +11,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -30,15 +29,6 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
         Button selectImage = (Button) findViewById(R.id.imagePicker);
         selectImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,13 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-
                 dispatchTakePictureIntent();
-//                Intent takePictureIntent = new Intent("android.media.action.IMAGE_CAPTURE");
-//                Uri uriSavedImage = Uri.fromFile(new File("/sdcard/flashCropped.png"));
-//                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, uriSavedImage);
-//                startActivityForResult(takePictureIntent, 1);
-//                startActivity(takePictureIntent);
             }
         });
 
@@ -89,7 +73,8 @@ public class MainActivity extends AppCompatActivity {
         try {
             imageFile = createImageFile();
         } catch (IOException e) {
-            Toast toast = Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT);
+            Context context = getApplicationContext();
+            Toast toast = Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT);
         }
         if (imageFile!= null) {
             Uri photoURI = FileProvider.getUriForFile(this,
@@ -97,7 +82,6 @@ public class MainActivity extends AppCompatActivity {
                     imageFile);
             takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
             startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
-            Log.i("Success", "Success!");
         }
     }
 
