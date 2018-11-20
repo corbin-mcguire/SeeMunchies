@@ -34,19 +34,19 @@ public class UploadRequest implements RequestToFlask
     public void post() throws Exception
     {
         enableStrictMode();
-        System.out.println("Request executing process begins");
+        //System.out.println("Request executing process begins");
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
-        System.out.println("URLConnectionMade");
+        //System.out.println("URLConnectionMade");
         con.setRequestMethod("POST");
-        System.out.println("Request method set");
+        //System.out.println("Request method set");
         con.setRequestProperty("Content-Type", "application/json");
-        System.out.println("Request property set");
+        //System.out.println("Request property set");
         this.encoded = this.encoded.replace("\n", "").replaceAll("\r", "");
-        System.out.println("Encoded string modified");
-        System.out.println(encoded);
+        //System.out.println("Encoded string modified");
+        //System.out.println(encoded);
         this.encoded = "Quinn";
-        String postJsonData = "{\"value\": " + this.encoded + "}";
-        System.out.println("Request payload made.");
+        String postJsonData = "{\"value\":\"" + this.encoded + "\"}";
+        //System.out.println("Request payload made.");
 
         con.setDoOutput(true);
         System.out.println("Request output set to true");
