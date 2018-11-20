@@ -11,6 +11,6 @@ SeeMunchies is a mobile application that uses an AWS hosted virtual machine with
 ## Installing 
 
 #### Authors 
-Quinn Hirt - Client-side logic implementation
-Corbin McGuire - UI design and implementation and documentation.
+Quinn Hirt - Client-side logic implementation  
+Corbin McGuire - UI design and implementation and documentation.  
 Logan Krause - Backend integration and database design
