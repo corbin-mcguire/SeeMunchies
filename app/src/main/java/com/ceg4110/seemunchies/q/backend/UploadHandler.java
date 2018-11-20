@@ -1,6 +1,6 @@
 package com.ceg4110.seemunchies.q.backend;
 
-import com.sun.org.apache.xml.internal.security.utils.Base64;
+import android.util.Base64;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -38,6 +38,6 @@ public class UploadHandler
         FileInputStream fis = new FileInputStream(f);
         byte[] bytes = new byte[(int)f.length()];
         fis.read(bytes);
-        return Base64.encode(bytes).toString();
+        return Base64.encodeToString(bytes, Base64.DEFAULT);
     }
 }
