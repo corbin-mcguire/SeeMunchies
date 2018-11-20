@@ -17,20 +17,7 @@
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
             app:popupTheme="@style/AppTheme.PopupOverlay"
-            tools:background="#0c0">
-
-            <TextView
-                android:id="@+id/title"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="@string/seemunchies"
-                android:textSize="30sp"
-                tools:layout_height="wrap_content"
-                tools:layout_margin="0dp"
-                tools:textColor="#fff"
-                tools:textSize="24sp" />
-
-        </android.support.v7.widget.Toolbar>
+            app:title="SeeMunchies"/>
 
     </android.support.design.widget.AppBarLayout>
 
