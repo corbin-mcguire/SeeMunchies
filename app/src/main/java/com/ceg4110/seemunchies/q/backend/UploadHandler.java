@@ -1,7 +1,10 @@
 package com.ceg4110.seemunchies.q.backend;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Base64;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -37,11 +40,17 @@ public class UploadHandler
     public String encodeFile() throws FileNotFoundException, IOException
     {
         File f = images.get(0);
-        FileInputStream fis = new FileInputStream(f);
-        byte[] bytes = new byte[(int)f.length()];
-        fis.read(bytes);
-        String temp = Base64.encodeToString(bytes, Base64.DEFAULT);
-        String value = temp.replace("\n", "").replaceAll("\r", "");
+        Bitmap bm = BitmapFactory.decodeFile(f.getAbsolutePath());
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bm.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] b = baos.toByteArray();
+        String value = Base64.encodeToString(b, Base64.DEFAULT);
+
+        //FileInputStream fis = new FileInputStream(f);
+        //byte[] bytes = new byte[(int)f.length()];
+        //fis.read(bytes);
+        //String temp = Base64.encodeToString(bytes, Base64.DEFAULT);
+        value = value.replace("\n", "").replaceAll("\r", "");
         return value;
     }
 }
