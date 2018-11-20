@@ -12,70 +12,63 @@
         android:id="@+id/imagePicker"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="3dp"
-        android:layout_marginEnd="132dp"
-        android:text="@string/Upload From Gallery"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="131dp" />
+        android:text="Upload From Gallery"
+        tools:layout_editor_absoluteX="5dp"
+        tools:layout_editor_absoluteY="185dp" />
 
     <Button
         android:id="@+id/openCamera"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:text="@string/take_picture"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="19dp" />
+        tools:layout_editor_absoluteX="6dp"
+        tools:layout_editor_absoluteY="61dp" />
 
     <Button
         android:id="@+id/openGallery"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/view_gallery"
-        tools:layout_editor_absoluteX="4dp"
-        tools:layout_editor_absoluteY="276dp" />
+        tools:layout_editor_absoluteX="5dp"
+        tools:layout_editor_absoluteY="305dp" />
 
     <TextView
         android:id="@+id/takePictureTextView"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/Take a Picture!"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp" />
+        android:layout_height="19dp"
+        android:text="Take a Picture!"
+        tools:layout_editor_absoluteX="159dp"
+        tools:layout_editor_absoluteY="43dp" />
 
     <TextView
         android:id="@+id/uploadFromGalleryTextView"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/Upload one of your own pictures!"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="112dp" />
+        android:layout_height="19dp"
+        android:text="Upload one of your own pictures!"
+        tools:layout_editor_absoluteX="104dp"
+        tools:layout_editor_absoluteY="148dp" />
 
     <TextView
         android:id="@+id/galleryTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/View all the awesome pictures other people have submitted!"
-        tools:layout_editor_absoluteX="9dp"
-        tools:layout_editor_absoluteY="241dp" />
+        android:text="View all the awesome pictures other people have submitted!"
+        tools:layout_editor_absoluteX="5dp"
+        tools:layout_editor_absoluteY="278dp" />
 
     <Button
         android:id="@+id/takePhotoSubmitButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginEnd="164dp"
-        android:text="@string/Submit"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/openCamera"
-        tools:layout_editor_absoluteY="19dp" />
+        android:text="Submit"
+        tools:layout_editor_absoluteX="280dp"
+        tools:layout_editor_absoluteY="62dp" />
 
     <Button
         android:id="@+id/uploadFromGallerySubmitButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/Submit"
-        tools:layout_editor_absoluteX="259dp"
-        tools:layout_editor_absoluteY="131dp" />
+        android:text="Submit"
+        tools:layout_editor_absoluteX="292dp"
+        tools:layout_editor_absoluteY="185dp" />
 </android.support.constraint.ConstraintLayout>

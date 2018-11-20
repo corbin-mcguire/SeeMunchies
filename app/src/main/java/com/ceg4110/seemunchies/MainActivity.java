@@ -15,12 +15,18 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.ceg4110.seemunchies.q.backend.UploadHandler;
+
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
+
+    private UploadHandler handler = new UploadHandler();
+    private File file = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +44,26 @@ public class MainActivity extends AppCompatActivity {
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
                 startActivityForResult(Intent.createChooser(intent, "Select an image"), PICK_IMAGE_REQUEST);
+            }
+        });
+
+        Button submitPic = findViewById(R.id.takePhotoSubmitButton);
+        submitPic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (file != null) {
+                    handler.getImages().add(file);
+                    try {
+                        handler.makeUploadRequest(handler.encodeFile());
+                    } catch (FileNotFoundException e) {
+                        e.getMessage();
+                    } catch (IOException e) {
+                        e.getMessage();
+                    } catch (Exception e) {
+                        e.getMessage();
+                    }
+
+                }
             }
         });
 
@@ -72,6 +98,7 @@ public class MainActivity extends AppCompatActivity {
         File imageFile = null;
         try {
             imageFile = createImageFile();
+            file = createImageFile();
         } catch (IOException e) {
             Context context = getApplicationContext();
             Toast toast = Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT);
