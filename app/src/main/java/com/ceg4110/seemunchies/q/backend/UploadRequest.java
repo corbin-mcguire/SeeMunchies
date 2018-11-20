@@ -1,5 +1,7 @@
 package com.ceg4110.seemunchies.q.backend;
 
+import android.os.StrictMode;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.io.BufferedReader;
@@ -21,6 +23,12 @@ public class UploadRequest implements RequestToFlask
     {
         this.encoded = encoded;
         url = new URL("http://18.224.114.186:5000/json_post");
+    }
+
+    public void enableStrictMode()
+    {
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
     }
 
     public void post() throws Exception
