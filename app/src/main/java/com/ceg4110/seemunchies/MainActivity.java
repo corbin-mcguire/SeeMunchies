@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (file != null) {
                     handler.getImages().add(file);
+                    System.out.println("Button pressed and image was there!");
                     try {
                         handler.makeUploadRequest(handler.encodeFile());
                     } catch (FileNotFoundException e) {
@@ -63,6 +64,10 @@ public class MainActivity extends AppCompatActivity {
                         e.getMessage();
                     }
 
+                }
+                else
+                {
+                    System.out.println("No file was found :(");
                 }
             }
         });
