@@ -39,15 +39,23 @@ public class UploadRequest implements RequestToFlask
 
         con.setDoOutput(true);
         System.out.println("Request output set to true");
-        DataOutputStream ds = new DataOutputStream(con.getOutputStream());
-        System.out.println("Request outputstream made");
-        ds.write(postJsonData.getBytes());
-        System.out.println("Request write bytes");
-        ds.flush();
-        System.out.println("Flush");
-        ds.close();
-        System.out.println("Close");
-        
+        try
+        {
+            DataOutputStream ds = new DataOutputStream(con.getOutputStream());
+            System.out.println("Request outputstream made");
+            ds.write(postJsonData.getBytes());
+            System.out.println("Request write bytes");
+            ds.flush();
+            System.out.println("Flush");
+            ds.close();
+            System.out.println("Close");
+        }
+        catch(Exception e)
+        {
+            System.out.println(e);
+        }
+
+
         BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));
         String output = br.readLine();
 
