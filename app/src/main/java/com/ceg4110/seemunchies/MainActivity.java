@@ -11,17 +11,22 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.ceg4110.seemunchies.q.backend.UploadHandler;
+
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
+
+    private UploadHandler handler = new UploadHandler();
+    private File file = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,15 +34,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         Button selectImage = (Button) findViewById(R.id.imagePicker);
         selectImage.setOnClickListener(new View.OnClickListener() {
@@ -51,18 +47,32 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        Button submitPic = findViewById(R.id.takePhotoSubmitButton);
+        submitPic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (file != null) {
+                    handler.getImages().add(file);
+                    try {
+                        handler.makeUploadRequest(handler.encodeFile());
+                    } catch (FileNotFoundException e) {
+                        e.getMessage();
+                    } catch (IOException e) {
+                        e.getMessage();
+                    } catch (Exception e) {
+                        e.getMessage();
+                    }
+
+                }
+            }
+        });
+
         Button openCamera = (Button) findViewById(R.id.openCamera);
         openCamera.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-
                 dispatchTakePictureIntent();
-//                Intent takePictureIntent = new Intent("android.media.action.IMAGE_CAPTURE");
-//                Uri uriSavedImage = Uri.fromFile(new File("/sdcard/flashCropped.png"));
-//                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, uriSavedImage);
-//                startActivityForResult(takePictureIntent, 1);
-//                startActivity(takePictureIntent);
             }
         });
 
@@ -88,8 +98,10 @@ public class MainActivity extends AppCompatActivity {
         File imageFile = null;
         try {
             imageFile = createImageFile();
+            file = createImageFile();
         } catch (IOException e) {
-            Toast toast = Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT);
+            Context context = getApplicationContext();
+            Toast toast = Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT);
         }
         if (imageFile!= null) {
             Uri photoURI = FileProvider.getUriForFile(this,
@@ -97,7 +109,6 @@ public class MainActivity extends AppCompatActivity {
                     imageFile);
             takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
             startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
-            Log.i("Success", "Success!");
         }
     }
 
