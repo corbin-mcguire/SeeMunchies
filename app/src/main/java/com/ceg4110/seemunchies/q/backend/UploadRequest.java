@@ -25,11 +25,17 @@ public class UploadRequest implements RequestToFlask
 
     public void post() throws Exception
     {
+        System.out.println("Request executing process begins");
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
+        System.out.println("URLConnectionMade");
         con.setRequestMethod("POST");
+        System.out.println("Request method set");
         con.setRequestProperty("Content-Type", "application/json");
+        System.out.println("Request property set");
         encoded = encoded.replace("\n", "").replaceAll("\r", "");
+        System.out.println("Encoded string modified");
         String postJsonData = "{\"value\": " + this.encoded + "}";
+        System.out.println("Request payload made.");
 
         con.setDoOutput(true);
         DataOutputStream ds = new DataOutputStream(con.getOutputStream());
@@ -38,6 +44,8 @@ public class UploadRequest implements RequestToFlask
         ds.close();
         BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));
         String output = br.readLine();
+
+        con.disconnect();
 
         Results.getInstance().getAIDecision().add(output);
         System.out.println("Request Done.");
