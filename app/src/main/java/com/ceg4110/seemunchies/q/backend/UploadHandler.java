@@ -42,7 +42,7 @@ public class UploadHandler
         File f = images.get(0);
         Bitmap bm = BitmapFactory.decodeFile(f.getAbsolutePath());
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bm.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        bm.compress(Bitmap.CompressFormat.JPEG, 10, baos);
         byte[] b = baos.toByteArray();
         String value = Base64.encodeToString(b, Base64.DEFAULT);
 
