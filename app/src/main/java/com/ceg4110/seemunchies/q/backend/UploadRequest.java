@@ -33,6 +33,7 @@ public class UploadRequest implements RequestToFlask
 
     public void post() throws Exception
     {
+        enableStrictMode();
         System.out.println("Request executing process begins");
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         System.out.println("URLConnectionMade");
