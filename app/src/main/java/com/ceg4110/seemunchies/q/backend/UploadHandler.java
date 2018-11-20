@@ -27,9 +27,10 @@ public class UploadHandler
         this.images = images;
     }
 
-    public void makeUploadRequest() throws Exception
+    public void makeUploadRequest(String encoded) throws Exception
     {
-        UploadRequest ur = new UploadRequest(encodeFile());
+        UploadRequest ur = new UploadRequest(encoded);
+        ur.post();
     }
 
     public String encodeFile() throws FileNotFoundException, IOException
@@ -38,6 +39,8 @@ public class UploadHandler
         FileInputStream fis = new FileInputStream(f);
         byte[] bytes = new byte[(int)f.length()];
         fis.read(bytes);
-        return Base64.encodeToString(bytes, Base64.DEFAULT);
+        String temp = Base64.encodeToString(bytes, Base64.DEFAULT);
+        String value = temp.replace("\n", "").replaceAll("\r", "");
+        return value;
     }
 }
