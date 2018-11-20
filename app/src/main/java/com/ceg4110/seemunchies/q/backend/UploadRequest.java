@@ -44,7 +44,7 @@ public class UploadRequest implements RequestToFlask
         this.encoded = this.encoded.replace("\n", "").replaceAll("\r", "");
         //System.out.println("Encoded string modified");
         //System.out.println(encoded);
-        this.encoded = "Quinn";
+        //this.encoded = "Quinn";
         String postJsonData = "{\"value\":\"" + this.encoded + "\"}";
         //System.out.println("Request payload made.");
 
