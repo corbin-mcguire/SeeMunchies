@@ -49,13 +49,16 @@ public class MainActivity extends AppCompatActivity {
         selectImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent pickImage = new Intent();
+                Intent pickImage = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 int PICK_IMAGE_REQUEST = 1;
-                pickImage.setType("image/*");
-                pickImage.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(pickImage, "Select an image"), PICK_IMAGE_REQUEST);
+//                pickImage.setType("image/*");
+//                pickImage.setAction(Intent.ACTION_GET_CONTENT);
+//                startActivityForResult(Intent.createChooser(pickImage, "Select an image"), PICK_IMAGE_REQUEST);
+                startActivityForResult(pickImage, 1);
             }
         });
+
+
 
         Button submitPic = findViewById(R.id.takePhotoSubmitButton);
         submitPic.setOnClickListener(new View.OnClickListener() {
@@ -131,6 +134,25 @@ public class MainActivity extends AppCompatActivity {
                     file);
             takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
             startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
+        }
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
+        super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
+        switch(requestCode) {
+            case 0:
+                if(resultCode == RESULT_OK){
+                    Uri selectedImage = imageReturnedIntent.getData();
+                    file = new File(selectedImage.getPath());
+                }
+
+                break;
+            case 1:
+                if(resultCode == RESULT_OK){
+                    Uri selectedImage = imageReturnedIntent.getData();
+                    file = new File(selectedImage.getPath());
+                }
+                break;
         }
     }
 
