@@ -11,6 +11,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -46,15 +47,20 @@ public class MainActivity extends AppCompatActivity {
 
 //        TODO: Be able to upload a selected image from local storage.
         Button selectImage = (Button) findViewById(R.id.imagePicker);
-        selectImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent pickImage = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                int PICK_IMAGE_REQUEST = 1;
+                selectImage.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent pickImage = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                        int PICK_IMAGE_REQUEST = 1;
+                        pickImage.setType("image/*");
+                        pickImage.setAction(Intent.ACTION_GET_CONTENT);
+                        startActivityForResult(Intent.createChooser(pickImage, "Select an image"), PICK_IMAGE_REQUEST);
+
+
+//                Intent pickImage = new Intent(Intent.ACTION_PICK,
+//                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 //                pickImage.setType("image/*");
-//                pickImage.setAction(Intent.ACTION_GET_CONTENT);
-//                startActivityForResult(Intent.createChooser(pickImage, "Select an image"), PICK_IMAGE_REQUEST);
-                startActivityForResult(pickImage, 1);
+//                startActivityForResult(pickImage , 1);
             }
         });
 
@@ -98,6 +104,9 @@ public class MainActivity extends AppCompatActivity {
                 else {
                     dispatchTakePictureIntent();
                 }
+//
+//                Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//                startActivityForResult(takePicture, 0);
             }
         });
 
@@ -120,9 +129,7 @@ public class MainActivity extends AppCompatActivity {
         if(takePictureIntent.resolveActivity(getPackageManager()) != null) {
             startActivityForResult(takePictureIntent, 1);
         }
-//        File imageFile = null;
         try {
-//            imageFile = createImageFile();
             file = createImageFile();
         } catch (IOException e) {
             Context context = getApplicationContext();
@@ -137,24 +144,26 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
-        super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
-        switch(requestCode) {
-            case 0:
-                if(resultCode == RESULT_OK){
-                    Uri selectedImage = imageReturnedIntent.getData();
-                    file = new File(selectedImage.getPath());
-                }
 
-                break;
-            case 1:
-                if(resultCode == RESULT_OK){
-                    Uri selectedImage = imageReturnedIntent.getData();
-                    file = new File(selectedImage.getPath());
-                }
-                break;
-        }
-    }
+//    protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
+//        super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
+//        switch(requestCode) {
+//            case 0:
+//                if(resultCode == RESULT_OK){
+//                    Uri selectedImage = imageReturnedIntent.getData();
+//                    Log.i("Image path", selectedImage.getPath());
+//                    file = new File(selectedImage.getPath());
+//                }
+//
+//                break;
+//            case 1:
+//                if(resultCode == RESULT_OK){
+//                    Uri selectedImage = imageReturnedIntent.getData();
+//                    file = new File(selectedImage.getPath());
+//                }
+//                break;
+//        }
+//    }
 
     private String currentPhotoPath;
     /**
