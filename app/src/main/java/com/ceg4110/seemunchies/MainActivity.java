@@ -25,15 +25,15 @@ import com.ceg4110.seemunchies.q.backend.UploadHandler;
 
 import org.w3c.dom.Text;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
-
-
 
     private UploadHandler handler = new UploadHandler();
     private File file = null;
@@ -48,7 +48,6 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         Results.getInstance();
         resultsTextView = (TextView) findViewById(R.id.resultsTextView);
-
 
         Button selectImage = (Button) findViewById(R.id.imagePicker);
                 selectImage.setOnClickListener(new View.OnClickListener() {
@@ -114,13 +113,10 @@ public class MainActivity extends AppCompatActivity {
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if(takePictureIntent.resolveActivity(getPackageManager()) != null) {
-//            startActivityForResult(takePictureIntent, 2);
-
             try {
                 file = createImageFile();
             } catch (IOException e) {
                 Context context = getApplicationContext();
-//                Toast toast = Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT);
             }
             if (file!= null) {
                 Uri photoURI = FileProvider.getUriForFile(this,
@@ -141,10 +137,19 @@ protected void onActivityResult(int requestCode, int resultCode, @Nullable Inten
         System.out.println("Printing the data Intent from onActivityResult: "+data.toString());
 
         try {
-            String uriPath = selectedImage.getPath();
-            Log.i("URI Path", uriPath);
-            file = new File(selectedImage.getPath());
-            System.out.println("Printing absolute path from onActivityResult: "+file.getAbsolutePath());
+            Bitmap imageBM = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            imageBM.compress(Bitmap.CompressFormat.PNG, 0, bos);
+            byte[] bitmapdata = bos.toByteArray();
+            File f = new File(this.getCacheDir(), "image");
+            f.createNewFile();
+
+            FileOutputStream fos = new FileOutputStream(f);
+            fos.write(bitmapdata);
+            fos.flush();
+            fos.close();
+
+            file = f;
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -167,7 +172,4 @@ protected void onActivityResult(int requestCode, int resultCode, @Nullable Inten
         currentPhotoPath = image.getAbsolutePath();
         return image;
     }
-
-
-
 }
