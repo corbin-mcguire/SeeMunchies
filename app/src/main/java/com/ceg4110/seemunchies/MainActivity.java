@@ -2,10 +2,12 @@ package com.ceg4110.seemunchies;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.FileProvider;
@@ -14,6 +16,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -51,10 +55,9 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         Intent pickImage = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                        int PICK_IMAGE_REQUEST = 1;
                         pickImage.setType("image/*");
                         pickImage.setAction(Intent.ACTION_GET_CONTENT);
-                        startActivityForResult(Intent.createChooser(pickImage, "Select an image"), PICK_IMAGE_REQUEST);
+                        startActivityForResult(Intent.createChooser(pickImage, "Select an image"), 1);
 
 
 //                Intent pickImage = new Intent(Intent.ACTION_PICK,
@@ -83,12 +86,10 @@ public class MainActivity extends AppCompatActivity {
                     } catch (Exception e) {
                         e.getMessage();
                     }
-
-                }
-                else
-                {
+                } else {
                     System.out.println("No file was found :(");
                 }
+
             }
         });
 
@@ -127,20 +128,21 @@ public class MainActivity extends AppCompatActivity {
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if(takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(takePictureIntent, 1);
-        }
-        try {
-            file = createImageFile();
-        } catch (IOException e) {
-            Context context = getApplicationContext();
-            Toast toast = Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT);
-        }
-        if (file!= null) {
-            Uri photoURI = FileProvider.getUriForFile(this,
-                    "com.example.android.fileprovider",
-                    file);
-            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-            startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
+//            startActivityForResult(takePictureIntent, 2);
+
+            try {
+                file = createImageFile();
+            } catch (IOException e) {
+                Context context = getApplicationContext();
+                Toast toast = Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT);
+            }
+            if (file!= null) {
+                Uri photoURI = FileProvider.getUriForFile(this,
+                        "com.example.android.fileprovider",
+                        file);
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
+            }
         }
     }
 
@@ -164,6 +166,22 @@ public class MainActivity extends AppCompatActivity {
 //                break;
 //        }
 //    }
+    
+@Override
+protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    super.onActivityResult(requestCode, resultCode, data);
+
+    if (requestCode == 1 && resultCode == RESULT_OK && data != null) {
+        Uri selectedImage = data.getData();
+
+        try {
+            file = new File(selectedImage.getPath());
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
 
     private String currentPhotoPath;
     /**
