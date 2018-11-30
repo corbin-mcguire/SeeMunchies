@@ -48,8 +48,6 @@ public class MainActivity extends AppCompatActivity {
         resultsTextView = (TextView) findViewById(R.id.resultsTextView);
 
 
-
-//        TODO: Be able to upload a selected image from local storage.
         Button selectImage = (Button) findViewById(R.id.imagePicker);
                 selectImage.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -58,16 +56,8 @@ public class MainActivity extends AppCompatActivity {
                         pickImage.setType("image/*");
                         pickImage.setAction(Intent.ACTION_GET_CONTENT);
                         startActivityForResult(Intent.createChooser(pickImage, "Select an image"), 1);
-
-
-//                Intent pickImage = new Intent(Intent.ACTION_PICK,
-//                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-//                pickImage.setType("image/*");
-//                startActivityForResult(pickImage , 1);
             }
         });
-
-
 
         Button submitPic = findViewById(R.id.takePhotoSubmitButton);
         submitPic.setOnClickListener(new View.OnClickListener() {
@@ -105,20 +95,17 @@ public class MainActivity extends AppCompatActivity {
                 else {
                     dispatchTakePictureIntent();
                 }
-//
-//                Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//                startActivityForResult(takePicture, 0);
             }
         });
 
-
-//        Button openGallery = (Button) findViewById(R.id.openGallery);
-//        openGallery.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                // Add code here to open the gallery.
-//            }
-//        });
+        Button galleryViewButton = findViewById(R.id.galleryViewButton);
+        galleryViewButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent launchGallery = new Intent(MainActivity.this, GalleryActivity.class);
+                startActivity(launchGallery);
+            }
+        });
     }
 
     private final int REQUEST_TAKE_PHOTO = 1;
@@ -166,7 +153,7 @@ public class MainActivity extends AppCompatActivity {
 //                break;
 //        }
 //    }
-    
+
 @Override
 protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
