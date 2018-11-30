@@ -33,6 +33,8 @@ import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 
+
+
     private UploadHandler handler = new UploadHandler();
     private File file = null;
     TextView resultsTextView;
@@ -66,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
                 if (file != null) {
                     handler.getImages().add(file);
                     System.out.println("Button pressed and image was there!");
+                    System.out.println("Printing absolute path from submitPic: "+file.getAbsolutePath());
                     try {
                         handler.makeUploadRequest(handler.encodeFile());
                         resultsTextView.setText(Results.getInstance().getAIDecision().get(0));
@@ -76,10 +79,12 @@ public class MainActivity extends AppCompatActivity {
                     } catch (Exception e) {
                         e.getMessage();
                     }
+                    finally {
+                        file = null;
+                    }
                 } else {
                     System.out.println("No file was found :(");
                 }
-
             }
         });
 
@@ -88,13 +93,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                if (file != null) { // Guarantees a new image will be created from the camera.
-                    file = null;
-                    dispatchTakePictureIntent();
-                }
-                else {
-                    dispatchTakePictureIntent();
-                }
+                dispatchTakePictureIntent();
             }
         });
 
@@ -121,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
                 file = createImageFile();
             } catch (IOException e) {
                 Context context = getApplicationContext();
-                Toast toast = Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT);
+//                Toast toast = Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT);
             }
             if (file!= null) {
                 Uri photoURI = FileProvider.getUriForFile(this,
@@ -133,36 +132,19 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
-//    protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
-//        super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
-//        switch(requestCode) {
-//            case 0:
-//                if(resultCode == RESULT_OK){
-//                    Uri selectedImage = imageReturnedIntent.getData();
-//                    Log.i("Image path", selectedImage.getPath());
-//                    file = new File(selectedImage.getPath());
-//                }
-//
-//                break;
-//            case 1:
-//                if(resultCode == RESULT_OK){
-//                    Uri selectedImage = imageReturnedIntent.getData();
-//                    file = new File(selectedImage.getPath());
-//                }
-//                break;
-//        }
-//    }
-
 @Override
 protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
 
     if (requestCode == 1 && resultCode == RESULT_OK && data != null) {
         Uri selectedImage = data.getData();
+        System.out.println("Printing the data Intent from onActivityResult: "+data.toString());
 
         try {
+            String uriPath = selectedImage.getPath();
+            Log.i("URI Path", uriPath);
             file = new File(selectedImage.getPath());
+            System.out.println("Printing absolute path from onActivityResult: "+file.getAbsolutePath());
         }
         catch (Exception e) {
             e.printStackTrace();
