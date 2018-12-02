@@ -8,7 +8,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class GalleryActivity extends AppCompatActivity {
+import java.io.Serializable;
+
+public class GalleryActivity extends AppCompatActivity implements Serializable {
 
 //    Button homeButton = findViewById(R.id.homeButton);
 //    Button previousButton = findViewById(R.id.previousButton);
@@ -35,17 +37,8 @@ public class GalleryActivity extends AppCompatActivity {
         Button previousButton = findViewById(R.id.previousButton);
         Button nextButton = findViewById(R.id.nextButton);
 
-        ImageView imageView1 = findViewById(R.id.imageView1);
-        TextView textView1 = findViewById(R.id.textView1);
-
-        ImageView imageView2 = findViewById(R.id.imageView3);
-        TextView textView2 = findViewById(R.id.textView2);
-
-        ImageView imageView3 = findViewById(R.id.imageView3);
-        TextView textView3 = findViewById(R.id.textView3);
-
-        ImageView imageView4 = findViewById(R.id.imageView4);
-        TextView textView4 = findViewById(R.id.textView4);
+        ImageView imageView = findViewById(R.id.imageView);
+        TextView textView = findViewById(R.id.textView);
 
         homeButton.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -30,10 +30,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements Serializable {
 
     private UploadHandler handler = new UploadHandler();
     private File file = null;
@@ -64,26 +65,31 @@ public class MainActivity extends AppCompatActivity {
         submitPic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (file != null) {
-                    handler.getImages().add(file);
-                    System.out.println("Button pressed and image was there!");
-                    System.out.println("Printing absolute path from submitPic: "+file.getAbsolutePath());
-                    try {
-                        handler.makeUploadRequest(handler.encodeFile());
-                        resultsTextView.setText(Results.getInstance().getAIDecision().get(0));
-                    } catch (FileNotFoundException e) {
-                        e.getMessage();
-                    } catch (IOException e) {
-                        e.getMessage();
-                    } catch (Exception e) {
-                        e.getMessage();
-                    }
-                    finally {
-                        file = null;
-                    }
-                } else {
-                    System.out.println("No file was found :(");
-                }
+//                if (file != null) {
+//                    handler.getImages().add(file);
+//                    System.out.println("Button pressed and image was there!");
+//                    System.out.println("Printing absolute path from submitPic: "+file.getAbsolutePath());
+//                    try {
+//                        handler.makeUploadRequest(handler.encodeFile());
+//                        resultsTextView.setText(Results.getInstance().getAIDecision().get(0));
+//                    } catch (FileNotFoundException e) {
+//                        e.getMessage();
+//                    } catch (IOException e) {
+//                        e.getMessage();
+//                    } catch (Exception e) {
+//                        e.getMessage();
+//                    }
+//                    finally {
+//                        file = null;
+//                    }
+//                } else {
+//                    System.out.println("No file was found :(");
+//                }
+
+                String testString = "This is a test String.";
+                Intent test = new Intent(MainActivity.this, stagingActivity.class);
+                test.putExtra("testString", testString);
+                startActivity(test);
             }
         });
 

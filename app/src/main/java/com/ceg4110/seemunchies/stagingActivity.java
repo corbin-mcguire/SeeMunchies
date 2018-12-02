@@ -8,9 +8,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class stagingActivity extends AppCompatActivity {
+import java.io.Serializable;
 
-
+public class stagingActivity extends AppCompatActivity implements Serializable {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +21,8 @@ public class stagingActivity extends AppCompatActivity {
         Button retryButton = findViewById(R.id.retryButton);
         Button submitButton = findViewById(R.id.submitButton);
         TextView resultsTextView = findViewById(R.id.resultsTextView);
+
+        resultsTextView.setText(getIntent().getStringExtra("testString"));
 
         retryButton.setOnClickListener(new View.OnClickListener() {
             @Override
