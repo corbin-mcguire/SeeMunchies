@@ -141,6 +141,7 @@ protected void onActivityResult(int requestCode, int resultCode, @Nullable Inten
         System.out.println("Printing the data Intent from onActivityResult: "+data.toString());
 
         try {
+            Bitmap imageBM = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
             String uriPath = selectedImage.getPath();
             Log.i("URI Path", uriPath);
             file = new File(selectedImage.getPath());
