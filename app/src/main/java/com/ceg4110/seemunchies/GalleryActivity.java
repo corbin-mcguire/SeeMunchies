@@ -12,39 +12,42 @@ import java.io.Serializable;
 
 public class GalleryActivity extends AppCompatActivity implements Serializable {
 
-//    Button homeButton = findViewById(R.id.homeButton);
-//    Button previousButton = findViewById(R.id.previousButton);
-//    Button nextButton = findViewById(R.id.nextButton);
-//
-//    ImageView imageView1 = findViewById(R.id.imageView1);
-//    TextView textView1 = findViewById(R.id.textView1);
-//
-//    ImageView imageView2 = findViewById(R.id.imageView3);
-//    TextView textView2 = findViewById(R.id.textView2);
-//
-//    ImageView imageView3 = findViewById(R.id.imageView3);
-//    TextView textView3 = findViewById(R.id.textView3);
-//
-//    ImageView imageView4 = findViewById(R.id.imageView4);
-//    TextView textView4 = findViewById(R.id.textView4);
+    Button homeButton;
+    Button previousButton;
+    Button nextButton;
+    ImageView imageView;
+    TextView textView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gallery);
 
-        Button homeButton = findViewById(R.id.homeButton);
-        Button previousButton = findViewById(R.id.previousButton);
-        Button nextButton = findViewById(R.id.nextButton);
-
-        ImageView imageView = findViewById(R.id.imageView);
-        TextView textView = findViewById(R.id.textView);
+        homeButton = findViewById(R.id.homeButton);
+        previousButton = findViewById(R.id.previousButton);
+        nextButton = findViewById(R.id.nextButton);
+        imageView = findViewById(R.id.imageView);
+        textView = findViewById(R.id.textView);
 
         homeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent homeIntent = new Intent(GalleryActivity.this, MainActivity.class);
                 startActivity(homeIntent);
+            }
+        });
+
+        previousButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        nextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
 

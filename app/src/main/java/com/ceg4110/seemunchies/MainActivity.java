@@ -36,7 +36,6 @@ import java.util.Date;
 
 public class MainActivity extends AppCompatActivity implements Serializable {
 
-    private UploadHandler handler = new UploadHandler();
     private File file = null;
     TextView resultsTextView;
 
@@ -51,13 +50,13 @@ public class MainActivity extends AppCompatActivity implements Serializable {
         resultsTextView = (TextView) findViewById(R.id.resultsTextView);
 
         Button selectImage = (Button) findViewById(R.id.imagePicker);
-                selectImage.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent pickImage = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                        pickImage.setType("image/*");
-                        pickImage.setAction(Intent.ACTION_GET_CONTENT);
-                        startActivityForResult(Intent.createChooser(pickImage, "Select an image"), 1);
+        selectImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent pickImage = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                pickImage.setType("image/*");
+                pickImage.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(pickImage, "Select an image"), 1);
             }
         });
 
@@ -85,11 +84,15 @@ public class MainActivity extends AppCompatActivity implements Serializable {
 //                } else {
 //                    System.out.println("No file was found :(");
 //                }
-
-                String testString = "This is a test String.";
-                Intent test = new Intent(MainActivity.this, stagingActivity.class);
-                test.putExtra("testString", testString);
-                startActivity(test);
+                if (file != null) {
+                    Intent imageSubmitIntent = new Intent(MainActivity.this, stagingActivity.class);
+                    imageSubmitIntent.putExtra("imageFile", file);
+                    startActivity(imageSubmitIntent);
+                } else {
+                    Toast toast = Toast.makeText(MainActivity.this, "No image selected.", Toast.LENGTH_SHORT);
+                    toast.show();
+                    System.out.println("No file was found :(");
+                }
             }
         });
 
@@ -113,18 +116,19 @@ public class MainActivity extends AppCompatActivity implements Serializable {
     }
 
     private final int REQUEST_TAKE_PHOTO = 1;
+
     /**
      * This function enables the user to take a picture.
      */
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if(takePictureIntent.resolveActivity(getPackageManager()) != null) {
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
             try {
                 file = createImageFile();
             } catch (IOException e) {
                 Context context = getApplicationContext();
             }
-            if (file!= null) {
+            if (file != null) {
                 Uri photoURI = FileProvider.getUriForFile(this,
                         "com.example.android.fileprovider",
                         file);
@@ -134,38 +138,39 @@ public class MainActivity extends AppCompatActivity implements Serializable {
         }
     }
 
-@Override
-protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-    super.onActivityResult(requestCode, resultCode, data);
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
-    if (requestCode == 1 && resultCode == RESULT_OK && data != null) {
-        Uri selectedImage = data.getData();
-        System.out.println("Printing the data Intent from onActivityResult: "+data.toString());
+        if (requestCode == 1 && resultCode == RESULT_OK && data != null) {
+            Uri selectedImage = data.getData();
+            System.out.println("Printing the data Intent from onActivityResult: " + data.toString());
 
-        try {
-            Bitmap imageBM = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
-            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            imageBM.compress(Bitmap.CompressFormat.PNG, 0, bos);
-            byte[] bitmapdata = bos.toByteArray();
-            File f = new File(this.getCacheDir(), "image");
-            f.createNewFile();
+            try {
+                Bitmap imageBM = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
+                ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                imageBM.compress(Bitmap.CompressFormat.PNG, 0, bos);
+                byte[] bitmapData = bos.toByteArray();
+                File f = new File(this.getCacheDir(), "image");
+                f.createNewFile();
 
-            FileOutputStream fos = new FileOutputStream(f);
-            fos.write(bitmapdata);
-            fos.flush();
-            fos.close();
+                FileOutputStream fos = new FileOutputStream(f);
+                fos.write(bitmapData);
+                fos.flush();
+                fos.close();
 
-            file = f;
-        }
-        catch (Exception e) {
-            e.printStackTrace();
+                file = f;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
-}
 
     private String currentPhotoPath;
+
     /**
      * Creates an image file that can be uploaded to the EC2 for determination.
+     *
      * @return Created image file.
      * @throws IOException
      */
