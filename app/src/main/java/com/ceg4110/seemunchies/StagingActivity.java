@@ -26,6 +26,7 @@ public class StagingActivity extends AppCompatActivity {
     ImageView imagePreview;
     Button retryButton;
     Button submitButton;
+    Button galleryButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +38,7 @@ public class StagingActivity extends AppCompatActivity {
         retryButton = findViewById(R.id.retryButton);
         submitButton = findViewById(R.id.submitButton);
         submitConfirmTextView = findViewById(R.id.submitConfirmTextView);
+        galleryButton = findViewById(R.id.galleryButton);
 
         imageFile = (File) getIntent().getExtras().get("imageFile"); // Get file from MainActivity
         String filePath = imageFile.getPath(); // get filepath
@@ -78,6 +80,14 @@ public class StagingActivity extends AppCompatActivity {
                     toast.show();
                     System.out.println("No file was found :(");
                 }
+            }
+        });
+
+        galleryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent galleryIntent = new Intent(StagingActivity.this, GalleryActivity.class);
+                startActivity(galleryIntent);
             }
         });
     }

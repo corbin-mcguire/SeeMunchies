@@ -42,4 +42,13 @@
         android:layout_alignEnd="@+id/submitConfirmTextView"
         android:text="submit" />
 
+    <Button
+        android:id="@+id/galleryButton"
+        android:layout_width="168dp"
+        android:layout_height="58dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="-76dp"
+        android:layout_toEndOf="@+id/imagePreview"
+        android:text="See The Gallery!" />
+
 </RelativeLayout>
