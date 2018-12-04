@@ -10,6 +10,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ceg4110.seemunchies.q.backend.GalleryHandler;
+
+import java.util.ArrayList;
+
 public class GalleryActivity extends AppCompatActivity {
 
     Button homeButton;
@@ -17,9 +21,38 @@ public class GalleryActivity extends AppCompatActivity {
     Button nextButton;
     ImageView imageView;
     TextView resultsTextView;
-    Bitmap[] galleryArray;
-    String[] imageResultsArray;
+    ArrayList<Bitmap> galleryArray;
+    ArrayList<String> imageResultsArray;
     int currentIndex = 0;
+    GalleryHandler gh = new GalleryHandler();
+
+    private String getBetterResults(String results) {
+        String[] sa;
+
+        String betterResults = "";
+        sa = results.split(" ");
+        System.out.println(sa[0] + sa[0]);
+
+        Double yesFood = Double.parseDouble(sa[0]);
+        System.out.println(yesFood);
+        Double noFood = Double.parseDouble(sa[1]);
+        System.out.println(noFood);
+
+        Double diff = yesFood - noFood;
+        System.out.println(diff);
+
+        if (diff > .75) {
+            betterResults = "I want to munch on this!";
+        } else if (diff > .5) {
+            betterResults = "I think I want to much on this.";
+        } else if (diff > .25) {
+            betterResults = "I'm not sure if I want to munch on this.";
+        } else {
+            betterResults = "I don't wanna munch on this!";
+        }
+
+        return betterResults;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,9 +65,19 @@ public class GalleryActivity extends AppCompatActivity {
         imageView = findViewById(R.id.imageView);
         resultsTextView = findViewById(R.id.resultsTextView);
 
-        // Sets the imageView to the first image in the array from the server.
+        try {
+            gh.makeGalleryRequest();
+            galleryArray = gh.getImages();
+            imageResultsArray = gh.getScores();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+//        // Sets the imageView to the first image in the array from the server.
 //        imageView.setImageBitmap(galleryArray[0]);
 //        resultsTextView.setText(imageResultsArray[0]);
+        System.out.println(gh.getImages());
+        System.out.println(gh.getScores());
 
         homeButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,20 +94,22 @@ public class GalleryActivity extends AppCompatActivity {
                     Toast.makeText(GalleryActivity.this, "You're at the beginning!", Toast.LENGTH_SHORT).show();
                 } else {
                     currentIndex--;
-                    imageView.setImageBitmap(galleryArray[currentIndex - 1]);
-                    resultsTextView.setText(imageResultsArray[currentIndex - 1]);
+                    imageView.setImageBitmap(galleryArray.get(currentIndex));
+                    resultsTextView.setText(imageResultsArray.get(currentIndex));
+//                    resultsTextView.setText(getBetterResults(imageResultsArray.get(currentIndex)));
                 }
             }
         });
         nextButton.setOnClickListener(new View.OnClickListener() { // Navigate forwards.
             @Override
             public void onClick(View v) {
-                if (currentIndex > galleryArray.length + 1) {
+                if (currentIndex > galleryArray.size() + 1) {
                     Toast.makeText(GalleryActivity.this, "No more images!", Toast.LENGTH_SHORT).show();
                 } else {
                     currentIndex++;
-                    imageView.setImageBitmap(galleryArray[currentIndex + 1]);
-                    resultsTextView.setText(imageResultsArray[currentIndex + 1]);
+                    imageView.setImageBitmap(galleryArray.get(currentIndex));
+                    resultsTextView.setText(imageResultsArray.get(currentIndex));
+//                    resultsTextView.setText(getBetterResults(imageResultsArray.get(currentIndex)));
                 }
             }
         });
