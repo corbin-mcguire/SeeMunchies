@@ -64,6 +64,7 @@ public class GalleryRequest implements RequestToFlask
         output = output.replace("u_id:ObjectId", "");
         output = output.replace("ustat:u", "");
         output = output.replace("}]", "");
+        output = output.replace("{uimage:u", "");
 
         String[] temp = output.split(",");
 
