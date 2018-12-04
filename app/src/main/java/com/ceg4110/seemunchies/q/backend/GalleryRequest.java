@@ -16,13 +16,11 @@ import java.util.ArrayList;
 
 public class GalleryRequest implements RequestToFlask
 {
-    private URL url;
     private ArrayList<String> strArr;
     private ArrayList<Bitmap> bmArr;
 
     public GalleryRequest() throws MalformedURLException, Exception
     {
-        this.url = new URL("http://18.224.114.186:5000/get_data");
         this.strArr = new ArrayList<String>();
         this.bmArr = new ArrayList<Bitmap>();
         this.get();
@@ -45,9 +43,9 @@ public class GalleryRequest implements RequestToFlask
     }
     public void get() throws Exception
     {
-        ArrayList<Bitmap> arr = new ArrayList<Bitmap>();
-
         enableStrictMode();
+
+        URL url = new URL("http://18.224.114.186:5000/get_data");
 
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         con.setRequestMethod("GET");
