@@ -25,8 +25,10 @@ import com.ceg4110.seemunchies.q.backend.UploadHandler;
 
 import org.w3c.dom.Text;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -34,8 +36,6 @@ import java.util.Date;
 public class MainActivity extends AppCompatActivity {
 
 
-
-    private UploadHandler handler = new UploadHandler();
     private File file = null;
     TextView resultsTextView;
 
@@ -51,13 +51,13 @@ public class MainActivity extends AppCompatActivity {
 
 
         Button selectImage = (Button) findViewById(R.id.imagePicker);
-                selectImage.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent pickImage = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                        pickImage.setType("image/*");
-                        pickImage.setAction(Intent.ACTION_GET_CONTENT);
-                        startActivityForResult(Intent.createChooser(pickImage, "Select an image"), 1);
+        selectImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent pickImage = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                pickImage.setType("image/*");
+                pickImage.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(pickImage, "Select an image"), 1);
             }
         });
 
@@ -66,23 +66,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (file != null) {
-                    handler.getImages().add(file);
-                    System.out.println("Button pressed and image was there!");
-                    System.out.println("Printing absolute path from submitPic: "+file.getAbsolutePath());
-                    try {
-                        handler.makeUploadRequest(handler.encodeFile());
-                        resultsTextView.setText(Results.getInstance().getAIDecision().get(0));
-                    } catch (FileNotFoundException e) {
-                        e.getMessage();
-                    } catch (IOException e) {
-                        e.getMessage();
-                    } catch (Exception e) {
-                        e.getMessage();
-                    }
-                    finally {
-                        file = null;
-                    }
+                    Intent imageSubmitIntent = new Intent(MainActivity.this, StagingActivity.class);
+                    imageSubmitIntent.putExtra("imageFile", file);
+                    startActivity(imageSubmitIntent);
                 } else {
+                    Toast toast = Toast.makeText(MainActivity.this, "No image selected.", Toast.LENGTH_SHORT);
+                    toast.show();
                     System.out.println("No file was found :(");
                 }
             }
@@ -108,12 +97,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private final int REQUEST_TAKE_PHOTO = 1;
+
     /**
      * This function enables the user to take a picture.
      */
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if(takePictureIntent.resolveActivity(getPackageManager()) != null) {
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
 //            startActivityForResult(takePictureIntent, 2);
 
             try {
@@ -122,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
                 Context context = getApplicationContext();
 //                Toast toast = Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT);
             }
-            if (file!= null) {
+            if (file != null) {
                 Uri photoURI = FileProvider.getUriForFile(this,
                         "com.example.android.fileprovider",
                         file);
@@ -132,30 +122,37 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-@Override
-protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-    super.onActivityResult(requestCode, resultCode, data);
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
-    if (requestCode == 1 && resultCode == RESULT_OK && data != null) {
-        Uri selectedImage = data.getData();
-        System.out.println("Printing the data Intent from onActivityResult: "+data.toString());
+        if (requestCode == 1 && resultCode == RESULT_OK && data != null) {
+            Uri selectedImage = data.getData();
+            System.out.println("Printing the data Intent from onActivityResult: " + data.toString());
 
-        try {
-            Bitmap imageBM = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
-            String uriPath = selectedImage.getPath();
-            Log.i("URI Path", uriPath);
-            file = new File(selectedImage.getPath());
-            System.out.println("Printing absolute path from onActivityResult: "+file.getAbsolutePath());
-        }
-        catch (Exception e) {
-            e.printStackTrace();
+            try {
+                Bitmap imageBM = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
+                ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                imageBM.compress(Bitmap.CompressFormat.PNG, 0, bos);
+                byte[] bitmapData = bos.toByteArray();
+                File f = new File(this.getCacheDir(), "image");
+                f.createNewFile();
+                FileOutputStream fos = new FileOutputStream(f);
+                fos.write(bitmapData);
+                fos.flush();
+                fos.close();
+                file = f;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
-}
 
     private String currentPhotoPath;
+
     /**
      * Creates an image file that can be uploaded to the EC2 for determination.
+     *
      * @return Created image file.
      * @throws IOException
      */
@@ -168,7 +165,6 @@ protected void onActivityResult(int requestCode, int resultCode, @Nullable Inten
         currentPhotoPath = image.getAbsolutePath();
         return image;
     }
-
 
 
 }

@@ -39,10 +39,8 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <activity
-            android:name=".GalleryActivity"
-            android:label="@string/title_activity_gallery"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".StagingActivity" />
+        <activity android:name=".GalleryActivity"></activity>
     </application>
 
 </manifest>
