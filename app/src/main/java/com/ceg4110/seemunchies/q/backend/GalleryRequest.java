@@ -69,17 +69,14 @@ public class GalleryRequest implements RequestToFlask
         String[] temp = output.split(",");
         System.out.println("The length of this length of the temporary array: " + temp.length);
         System.out.println(temp[0]);
-        byte[] imageBytes = Base64.decode(temp[0], Base64.DEFAULT);
-        Bitmap decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
-        this.bmArr.add(decodedImage);
 
         for(int i = 0; i < temp.length; i++)
         {
             if(i%3 == 0)
             {
-//                byte[] imageBytes = Base64.decode(temp[i], Base64.DEFAULT);
-//                Bitmap decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
-//                this.bmArr.add(decodedImage);
+                byte[] imageBytes = Base64.decode(temp[i], Base64.DEFAULT);
+                Bitmap decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+                this.bmArr.add(decodedImage);
             }
             else if(i%3 == 2)
             {

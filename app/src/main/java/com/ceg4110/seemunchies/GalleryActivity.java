@@ -27,20 +27,46 @@ public class GalleryActivity extends AppCompatActivity {
     GalleryHandler gh = new GalleryHandler();
 
     private String getBetterResults(String results) {
-        String[] sa;
+
+        String score = results;
+
+        score = score.replace("[", "");
+        score = score.replace("]", "");
+        score = score.replace("}", "");
+        score = score.replace("{", "");
+
+        char[] temp = score.toCharArray();
+        int index = -1;
+        for(int i = 0; i < temp.length; i++)
+        {
+            if(temp[i] == '.')
+            {
+                index = i;
+            }
+        }
+
+        index -= 1;
+        if(temp[index - 1] == '-')
+        {
+            index -= 1;
+        }
+
+        String upper = score.substring(0, index);
+        String lower = score.substring(index);
+
+        System.out.println(upper);
+        System.out.println(lower);
+
+        double[] parsedScores = { Double.parseDouble(upper), Double.parseDouble(lower)};
+
+        System.out.println(parsedScores[0]);
+        System.out.println(parsedScores[1]);
 
         String betterResults = "";
-        sa = results.split(" ");
-        System.out.println(sa[0] + sa[0]);
-
-        Double yesFood = Double.parseDouble(sa[0]);
-        System.out.println(yesFood);
-        Double noFood = Double.parseDouble(sa[1]);
-        System.out.println(noFood);
-
-        Double diff = yesFood - noFood;
+//
+        Double diff = parsedScores[0] - parsedScores[1];
         System.out.println(diff);
-
+//
         if (diff > .75) {
             betterResults = "I want to munch on this!";
         } else if (diff > .5) {
@@ -74,9 +100,9 @@ public class GalleryActivity extends AppCompatActivity {
         }
 
 //        // Sets the imageView to the first image in the array from the server.
-//        imageView.setImageBitmap(galleryArray[0]);
-//        resultsTextView.setText(imageResultsArray[0]);
+        imageView.setImageBitmap(galleryArray.get(0));
         System.out.println(gh.getImages());
+        resultsTextView.setText(imageResultsArray.get(0));
         System.out.println(gh.getScores());
 
         homeButton.setOnClickListener(new View.OnClickListener() {
@@ -95,21 +121,20 @@ public class GalleryActivity extends AppCompatActivity {
                 } else {
                     currentIndex--;
                     imageView.setImageBitmap(galleryArray.get(currentIndex));
-                    resultsTextView.setText(imageResultsArray.get(currentIndex));
-//                    resultsTextView.setText(getBetterResults(imageResultsArray.get(currentIndex)));
+                    resultsTextView.setText(getBetterResults(imageResultsArray.get(currentIndex)));
                 }
             }
         });
         nextButton.setOnClickListener(new View.OnClickListener() { // Navigate forwards.
             @Override
             public void onClick(View v) {
-                if (currentIndex > galleryArray.size() + 1) {
+                System.out.println(currentIndex);
+                if (currentIndex >= galleryArray.size()-1) {
                     Toast.makeText(GalleryActivity.this, "No more images!", Toast.LENGTH_SHORT).show();
                 } else {
                     currentIndex++;
                     imageView.setImageBitmap(galleryArray.get(currentIndex));
-                    resultsTextView.setText(imageResultsArray.get(currentIndex));
-//                    resultsTextView.setText(getBetterResults(imageResultsArray.get(currentIndex)));
+                    resultsTextView.setText(getBetterResults(imageResultsArray.get(currentIndex)));
                 }
             }
         });
