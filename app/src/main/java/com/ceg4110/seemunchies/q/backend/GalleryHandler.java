@@ -20,6 +20,10 @@ public class GalleryHandler
     {
         return images;
     }
+    public ArrayList<String> getScores()
+    {
+        return scores;
+    }
 
     public void setImages(ArrayList<Bitmap> images)
     {
