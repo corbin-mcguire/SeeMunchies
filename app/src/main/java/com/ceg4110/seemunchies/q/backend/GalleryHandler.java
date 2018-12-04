@@ -8,10 +8,12 @@ import java.util.ArrayList;
 public class GalleryHandler
 {
     private ArrayList<Bitmap> images;
+    private ArrayList<String> scores;
 
     public GalleryHandler()
     {
         this.images = new ArrayList<Bitmap>();
+        this.scores = new ArrayList<String>();
     }
 
     public ArrayList<Bitmap> getImages()
@@ -24,8 +26,10 @@ public class GalleryHandler
         this.images = images;
     }
 
-    public void makeGalleryRequest()
+    public void makeGalleryRequest() throws Exception
     {
-        // TODO Make the Request
+        GalleryRequest gr = new GalleryRequest();
+        this.images = gr.getBmArr();
+        this.scores = gr.getStrArr();
     }
 }
